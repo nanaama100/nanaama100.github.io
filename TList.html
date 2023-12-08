@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="TList.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+    <body>
+        <header><h1>Todo List</h1><div class="icon1"><i class='bx bx-list-check'></i></div></header>
+                <div class="cont1">
+                    <input id="Task-Date" type="date" required>
+                    <button id="button-date" onclick="AddingDate()">Add Date</button>
+                </div>
+                <div class="cont2">
+                    <form onsubmit="event.preventDefault()">
+                        <div>
+                            <span id="icon1"><i class='bx bxs-pencil'></i></span>
+                            <input id="Task-Title" type="text" placeholder=" Add Task Title" required>                  
+                        </div><br>
+                        <div>
+                            <span id="icon2"><i class='bx bxs-edit'></i></span>
+                            <input type="text" id="Subnotes" placeholder="Add Subnotes(separate note by commas)" >                      
+                        </div><br>
+                        <button type="submit" id="Button1" onclick="AddingTask()">Add Task</button>                          
+                    </form>
+                </div>
+                <div id="cont3"></div> 
+                <div class="checkme">
+                    <button type="submit" id="buttonbox" onclick="AccomplishedTask()"><span class="accm">Accomplished Task</span><span id="icon3"><i class='bx bx-check-circle'></i></span></button>        
+                    <button type="submit" id="buttonbox" onclick="UnaccomplishedTask()">Unaccomplished Task <span id="icon3"><i class='bx bx-help-circle'></i></span></button>                
+                </div>  
+        <script>
+            function AddingDate(){
+                let date = document.getElementById("Task-Date").value;
+                document.getElementById("cont3").innerHTML= date          
+            } 
+            
+            var tasks = []
+            function AddingTask(){ 
+                var input1 = document.getElementById("Task-Title").value; 
+                var input2 = document.getElementById("Subnotes").value;
+                if (input1 === ""){
+                    alert("Kindly enter a task")
+                }
+                else{
+                    var task = {
+                    title: input1,
+                    subnotes: input2
+                };
+                tasks.push(task);
+                }
+                displayTasks();          
+            }
+
+            function displayTasks(){
+                var container = document.getElementById("cont3");
+                container.innerHTML = "";
+
+                
+                var orderedlist = document.createElement("ol");
+                for (i=0; i<tasks.length;i++){
+                    var listTask = document.createElement("li");
+                    var taskTitle = document.createElement("h3");
+                    let btn1 = document.createElement('button');
+                    btn1.innerText= "Done";           
+                    taskTitle.textContent = tasks[i].title;
+                    taskTitle.appendChild(btn1);
+                    listTask.appendChild(taskTitle);
+
+                    //styling the inner button(btn1)
+                    btn1.style.borderRadius='20px';
+                    btn1.style.width = "60px";
+                    btn1.style.borderColor= "burlywood";
+                    btn1.style.backgroundColor= "rgb(135, 28, 3)";
+                    btn1.style.height = "20px";
+                    btn1.style.marginLeft = "8%";
+                    btn1.style.color= "white";
+
+                    // adding functionaity to the created buttons
+                    btn1.addEventListener('click',
+                    function(){
+                        listTask.style.textDecoration = "line-through";
+                        subnoteslist.style.textDecoration = "line-through";
+                        // listTask.remove() 
+                        // subnoteslist.remove()     
+                    })
+
+                    var subnoteslist = document.createElement("ul");
+                    var subnotes = tasks[i].subnotes.split(",");
+                for(var j=0; j<subnotes.length;j++){
+                    var subnoteItem = document.createElement("li");
+                    subnoteItem.textContent = subnotes[j];
+                    subnoteslist.appendChild(subnoteItem);
+                    }
+                    listTask.appendChild(subnoteslist);
+                    orderedlist.appendChild(listTask);
+                }
+                container.appendChild(orderedlist);
+            } 
+            
+            DoneTask = []
+            function AccomplishedTask(){
+            
+            }
+        </script> 
+    </body>
+</html>
